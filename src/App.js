@@ -2,15 +2,17 @@ import "./App.css";
 import { useState } from "react";
 import { LC, NC, SC, UC } from "./data/PassChar";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [upperCase, setUpperCase] = useState(false);
+  const [upperCase, setUpperCase] = useState(true);
   const [lowercase, setLowercase] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [symbol, setSymbol] = useState(false);
   const [passlen, setPassLen] = useState(8);
-  const [Password,setPassword] = useState("");
+  const [Password, setPassword] = useState("");
+  const [copy, setClick] = useState(true);
+
   let createPassword = () => {
     let charSet = "";
     let finalPass = "";
@@ -23,34 +25,41 @@ function App() {
       for (let i = 0; i < passlen; i++) {
         finalPass += charSet.charAt(Math.floor(Math.random() * charSet.length));
       }
-     setPassword(finalPass);
-     toast.info(" Password Genrate hogya, Copy krlo :)")
+
+      setPassword(finalPass);
+
+      toast.info(" Password Genrate hogya, Copy krlo :)");
     } else {
       toast.warning("Ek Checkbox to select kro Sahab!!");
     }
   };
 
- let Copy = ()=>{
-  console.log(Password);
-  
-  if(Password!==''){
-    navigator.clipboard.writeText(Password);
-  toast.info("Password copy ho chuka hai!!");
-  }else{
-    toast.warning("Password Genrate toh kr")
-  }
- }
+  let Copy = () => {
+    console.log(Password);
 
+    if ( Password!=='' && copy === true) {
+      navigator.clipboard.writeText(Password);
+      toast.info("Password copy ho chuka hai!!");
+      setClick(false);
 
-
+      setTimeout(() => {
+        setClick(true);
+      }, 3000); // Delay of 2 seconds
+    } else if(copy===false){
+    }
+    else {
+      toast.warning("Password Genrate toh kr");
+    }
+  };
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
+
       <div className="passwordBox">
         <h3>Password Genrator</h3>
         <div className="password">
-          <input value={Password} readonly/>
+          <input value={Password} readonly />
           <button onClick={Copy}>Copy</button>
         </div>
 
@@ -62,8 +71,8 @@ function App() {
             min={1}
             value={passlen}
             onChange={(e) => {
-              if(e.target.value <= 20){
-                setPassLen(e.target.value)
+              if (e.target.value <= 20) {
+                setPassLen(e.target.value);
               }
             }}
           />
