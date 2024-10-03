@@ -9,7 +9,7 @@ function App() {
   const [lowercase, setLowercase] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [symbol, setSymbol] = useState(false);
-  const [passlen, setPassLen] = useState(10);
+  const [passlen, setPassLen] = useState(8);
   const [Password,setPassword] = useState("");
   let createPassword = () => {
     let charSet = "";
@@ -48,7 +48,7 @@ function App() {
     <div>
       <ToastContainer/>
       <div className="passwordBox">
-        <h3>Password Generator</h3>
+        <h3>Password Genrator</h3>
         <div className="password">
           <input value={Password} readonly/>
           <button onClick={Copy}>Copy</button>
@@ -61,7 +61,11 @@ function App() {
             max={20}
             min={1}
             value={passlen}
-            onChange={(e) => setPassLen(e.target.value)}
+            onChange={(e) => {
+              if(e.target.value <= 20){
+                setPassLen(e.target.value)
+              }
+            }}
           />
         </div>
         <div className="passlength">
@@ -97,7 +101,7 @@ function App() {
           />
         </div>
         <button onClick={createPassword} className="genratePass">
-          Generate Password
+          Genrate Password
         </button>
       </div>
     </div>
